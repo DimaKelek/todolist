@@ -5,16 +5,22 @@ import {TaskType} from "../App";
 type TodolistPropsType = {
     title: string
     tasks: TaskType[]
+    removeTask: (taskId: number) => void
 }
 
 export function Todolist(props: TodolistPropsType) {
+
     const tasks = props.tasks.map( t => <li key={t.id}>
         <input
             type="checkbox"
             checked={t.isDone}
         />
-        <span>{t.title}</span> </li>
+        <span>{t.title}</span>
+        <button onClick={() => {props.removeTask(t.id)}}>X</button> </li>
     )
+    const onclickAll = () => {}
+    const onclickActive = () => {}
+    const onclickCompleted = () => {}
     return (
         <div className={S.todolist}>
             <h3>{props.title}</h3>
@@ -22,13 +28,11 @@ export function Todolist(props: TodolistPropsType) {
                 <input />
                 <button>+</button>
             </div>
-            <ul>
-                {tasks}
-            </ul>
+            <ul>{tasks}</ul>
             <div>
-                <button>All</button>
-                <button>Active</button>
-                <button>Completed</button>
+                <button onClick={onclickAll}>All</button>
+                <button onClick={onclickActive}>Active</button>
+                <button onClick={onclickCompleted}>Completed</button>
             </div>
         </div>
     );
