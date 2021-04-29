@@ -11,6 +11,8 @@ export type TaskType = {
 }
 
 function App() {
+    const [filter, setFilter] = useState<FilterTaskType>("all")
+
     const [tasks, setTasks] = useState<Array<TaskType>>([
         {id: 1, title: "HTML", isDone: true},
         {id: 2, title: "CSS", isDone: true},
@@ -23,10 +25,17 @@ function App() {
         let filteredTasks = tasks.filter( t => t.id !== taskId)
         setTasks(filteredTasks)
     }
-    const [filter, setFilter] = useState<FilterTaskType>("all")
 
-    function changeFilter(filter: FilterTaskType) {
-        setFilter(filter)
+    function changeFilter(value: FilterTaskType) {
+        setFilter(value)
+    }
+
+    function changeStatus(taskId: number, isDone: boolean) {
+        let task = tasks.find( t => t.id === taskId)
+        if(task) {
+            task.isDone = isDone
+            setTasks([...tasks])
+        }
     }
 
     let filteredTasks = tasks
@@ -43,6 +52,7 @@ function App() {
                 tasks={filteredTasks}
                 removeTask={removeTask}
                 changeFilter={changeFilter}
+                changeStatus={changeStatus}
             />
         </div>
     );
