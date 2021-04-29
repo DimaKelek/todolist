@@ -21,6 +21,15 @@ function App() {
         {id: 5, title: "Redux", isDone: false}
     ])
 
+    function addTask(title: string) {
+        let newTask: TaskType = {
+            id: 6,
+            title: title,
+            isDone: false
+        }
+        setTasks([newTask, ...tasks])
+    }
+
     function removeTask(taskId: number) {
         let filteredTasks = tasks.filter( t => t.id !== taskId)
         setTasks(filteredTasks)
@@ -53,6 +62,7 @@ function App() {
                 removeTask={removeTask}
                 changeFilter={changeFilter}
                 changeStatus={changeStatus}
+                addTask={addTask}
             />
         </div>
     );

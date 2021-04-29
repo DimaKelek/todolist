@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useState} from "react";
 import S from "./Todolist.module.css"
 import {FilterTaskType, TaskType} from "../App";
 
@@ -8,11 +8,14 @@ type TodolistPropsType = {
     removeTask: (taskId: number) => void
     changeFilter: (value: FilterTaskType) => void
     changeStatus: (taskId: number, isDone: boolean) => void
+    addTask: (title: string) => void
 }
 
 export function Todolist(props: TodolistPropsType) {
+    const [title, setTitle] = useState<string>("")
 
     const tasks = props.tasks.map(t => {
+        const removeTask = () => props.removeTask(t.id)
         const changeStatus = (e: ChangeEvent<HTMLInputElement>) => {
             let newIsDone = e.currentTarget.checked
             props.changeStatus(t.id, newIsDone)
@@ -21,20 +24,35 @@ export function Todolist(props: TodolistPropsType) {
             <li key={t.id}>
                 <input type="checkbox" onChange={changeStatus} checked={t.isDone}/>
                 <span>{t.title}</span>
-                <button onClick={() => {props.removeTask(t.id)}}>X</button>
+                <button onClick={removeTask}>X</button>
             </li>
         );
     })
+    const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.currentTarget.value)
+    }
 
+    //---callbacks---//
     const onClickAll = () => props.changeFilter("all");
     const onClickActive = () => props.changeFilter("active");
     const onClickCompleted = () => props.changeFilter("completed");
+    const addTask = () => {
+        const trimmedTitle = title.trim()
+        if(trimmedTitle) {
+            props.addTask(trimmedTitle)
+        }
+        setTitle("")
+    }
+
     return (
         <div className={S.todolist}>
             <h3>{props.title}</h3>
             <div>
-                <input/>
-                <button>+</button>
+                <input
+                    value={title}
+                    onChange={changeTitle}
+                />
+                <button onClick={addTask}>+</button>
             </div>
             <ul>{tasks}</ul>
             <div>
