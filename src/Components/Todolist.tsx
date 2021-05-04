@@ -3,12 +3,13 @@ import S from "./Todolist.module.css"
 import {FilterTaskType, TaskType} from "../App";
 
 type TodolistPropsType = {
+    todolistID: string
     title: string
     tasks: TaskType[]
-    removeTask: (taskId: number) => void
+    removeTask: (taskId: string, todolistID: string) => void
     changeFilter: (value: FilterTaskType) => void
-    changeStatus: (taskId: number, isDone: boolean) => void
-    addTask: (title: string) => void
+    changeStatus: (taskId: string, isDone: boolean, todolistID: string) => void
+    addTask: (title: string, todolistID: string) => void
     filter: FilterTaskType
 }
 
@@ -17,10 +18,10 @@ export function Todolist(props: TodolistPropsType) {
     const [error, setError] = useState<boolean | null>(false)
 
     const tasks = props.tasks.map(t => {
-        const removeTask = () => props.removeTask(t.id)
+        const removeTask = () => props.removeTask(t.id, props.todolistID)
         const changeStatus = (e: ChangeEvent<HTMLInputElement>) => {
             let newIsDone = e.currentTarget.checked
-            props.changeStatus(t.id, newIsDone)
+            props.changeStatus(t.id, newIsDone, props.todolistID)
         }
         return (
             <li key={t.id} className={t.isDone ? "is-done" : ""}>
@@ -42,7 +43,7 @@ export function Todolist(props: TodolistPropsType) {
     const addTask = () => {
         const trimmedTitle = title.trim()
         if(trimmedTitle) {
-            props.addTask(trimmedTitle)
+            props.addTask(trimmedTitle, props.todolistID)
             setError(false)
         } else {
             setError(true)
