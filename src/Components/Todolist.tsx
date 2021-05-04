@@ -14,6 +14,7 @@ type TodolistPropsType = {
 
 export function Todolist(props: TodolistPropsType) {
     const [title, setTitle] = useState<string>("")
+    const [error, setError] = useState<boolean | null>(false)
 
     const tasks = props.tasks.map(t => {
         const removeTask = () => props.removeTask(t.id)
@@ -31,6 +32,7 @@ export function Todolist(props: TodolistPropsType) {
     })
     const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
+        setError(false)
     }
 
     //---callbacks---//
@@ -41,20 +43,26 @@ export function Todolist(props: TodolistPropsType) {
         const trimmedTitle = title.trim()
         if(trimmedTitle) {
             props.addTask(trimmedTitle)
+            setError(false)
+        } else {
+            setError(true)
         }
         setTitle("")
     }
+    const errorMessage = error ? <div className="error-message">Title is required!!!</div> : null
 
     return (
         <div className={S.todolist}>
             <h3>{props.title}</h3>
             <div>
                 <input
+                    className={error ? "error-input" : ""}
                     value={title}
                     onChange={changeTitle}
                 />
                 <button onClick={addTask}>+</button>
             </div>
+            {errorMessage}
             <ul>{tasks}</ul>
             <div>
                 <button
