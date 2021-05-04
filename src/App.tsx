@@ -43,7 +43,7 @@ function App() {
             {id: v1(), title: "apples", isDone: true},
         ]
     })
-
+    //manipulation of the Turks
     function addTask(title: string, todolistID: string) {
         let newTask: TaskType = {
             id: v1(),
@@ -52,16 +52,13 @@ function App() {
         }
         setTasks({...tasks, [todolistID]:[newTask, ...tasks[todolistID]]})
     }
-
     function removeTask(taskId: string, todolistID: string) {
         tasks[todolistID] = tasks[todolistID].filter( t => t.id !== taskId)
         setTasks({...tasks})
     }
-
     function changeFilter(value: FilterTaskType) {
         setFilter(value)
     }
-
     function changeStatus(taskId: string, isDone: boolean, todolistID: string) {
         let task = tasks[todolistID].find( t => t.id === taskId)
         if(task) {
@@ -70,7 +67,11 @@ function App() {
         }
     }
 
-
+    //manipulation of the todolists
+    function removeTodolist(todolistID: string) {
+        setTodolists(todolists.filter(tl => tl.id !== todolistID))
+        delete(tasks[todolistID])
+    }
     const todolistComponents = todolists.map( tl => {
         let filteredTasks = tasks[tl.id]
         if (filter === "active") {
@@ -89,6 +90,7 @@ function App() {
                 changeStatus={changeStatus}
                 addTask={addTask}
                 filter={filter}
+                removeTodolist={removeTodolist}
             />
         );
     })

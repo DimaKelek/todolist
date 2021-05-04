@@ -11,6 +11,7 @@ type TodolistPropsType = {
     changeStatus: (taskId: string, isDone: boolean, todolistID: string) => void
     addTask: (title: string, todolistID: string) => void
     filter: FilterTaskType
+    removeTodolist: (todolistID: string) => void
 }
 
 export function Todolist(props: TodolistPropsType) {
@@ -50,11 +51,14 @@ export function Todolist(props: TodolistPropsType) {
         }
         setTitle("")
     }
+    const deleteTodolist = () => {
+        props.removeTodolist(props.todolistID)
+    }
     const errorMessage = error ? <div className="error-message">Title is required!!!</div> : null
 
     return (
         <div className={S.todolist}>
-            <h3>{props.title}</h3>
+            <h3>{props.title}<button onClick={deleteTodolist}>x</button></h3>
             <div>
                 <input
                     className={error ? "error-input" : ""}
