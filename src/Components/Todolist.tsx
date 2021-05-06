@@ -39,9 +39,7 @@ export function Todolist(props: TodolistPropsType) {
     const deleteTodolist = () => {
         props.removeTodolist(props.todolistID)
     }
-    const addItem = () => {
-
-    }
+    const addItem = (title: string) => props.addTask(title, props.todolistID)
 
     return (
         <div className={S.todolist}>
