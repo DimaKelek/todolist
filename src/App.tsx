@@ -24,7 +24,6 @@ type TaskStateType = {
 function App() {
     const todolistID_1 = v1()
     const todolistID_2 = v1()
-    /*const [filter, setFilter] = useState<FilterTaskType>("all")*/
 
     const [todolists, setTodolists] = useState<Array<TodolistType>>([
         {id: todolistID_1, title: "What to learn", filter: "all"},
@@ -32,19 +31,19 @@ function App() {
     ])
 
     const [tasks, setTasks] = useState<TaskStateType>({
-        [todolistID_1]:[
+        [todolistID_1]: [
             {id: v1(), title: "HTML", isDone: true},
             {id: v1(), title: "CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
             {id: v1(), title: "React", isDone: false},
             {id: v1(), title: "Redux", isDone: false}
         ],
-        [todolistID_2]:[
+        [todolistID_2]: [
             {id: v1(), title: "book", isDone: true},
             {id: v1(), title: "apples", isDone: true},
         ]
     })
-    //manipulation of the Turks
+    //manipulation of the Tusks
     function addTask(title: string, todolistID: string) {
         let newTask: TaskType = {
             id: v1(),
@@ -67,7 +66,14 @@ function App() {
             setTasks({...tasks})
         }
     }
-
+    function changeTaskTitle(newTitle: string, taskId: string, todolistID: string) {
+        let todolistTasks = tasks[todolistID]
+        let task = todolistTasks.find(t => t.id === taskId)
+        if(task) {
+            task.title = newTitle
+            setTasks({...tasks})
+        }
+    }
     //manipulation of the todolists
     function removeTodolist(todolistID: string) {
         setTodolists(todolists.filter(tl => tl.id !== todolistID))
@@ -104,6 +110,7 @@ function App() {
                 addTask={addTask}
                 filter={tl.filter}
                 removeTodolist={removeTodolist}
+                changeTaskTitle={changeTaskTitle}
             />
         );
     })

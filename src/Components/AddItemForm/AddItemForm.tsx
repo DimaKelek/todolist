@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
@@ -22,6 +22,12 @@ export function AddItemForm(props: AddItemFormPropsType) {
         }
         setTitle("")
     }
+    const onKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+        if(e.key === "Enter") {
+            props.addItem(title)
+            setTitle("")
+        }
+    }
     const errorMessage = error ? <div className="error-message">Title is required!!!</div> : null
     return (
         <div>
@@ -30,6 +36,7 @@ export function AddItemForm(props: AddItemFormPropsType) {
                     className={error ? "error-input" : ""}
                     value={title}
                     onChange={changeTitle}
+                    onKeyPress={onKeyPress}
                 />
                 <button onClick={addItem}>+</button>
             </div>
