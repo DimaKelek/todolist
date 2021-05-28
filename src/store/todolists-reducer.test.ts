@@ -1,4 +1,4 @@
-import {AddTodolistAC, ChangeFilterAC, ChangeTodolistTitleAC, RemoveTodolistAC, todolistsReducer} from './todolist-reducer';
+import {addTodolistAC, changeFilterAC, changeTodolistTitleAC, removeTodolistAC, todolistsReducer} from './todolist-reducer';
 import {v1} from 'uuid';
 import {FilterTaskType, TodolistType} from '../App';
 
@@ -11,7 +11,7 @@ test('correct todolist should be removed', () => {
         {id: todolistId_2, title: "What to buy", filter: "all"}
     ]
 
-    const endState = todolistsReducer(startState, RemoveTodolistAC(todolistId_1))
+    const endState = todolistsReducer(startState, removeTodolistAC(todolistId_1))
 
     expect(endState.length).toBe(1);
     expect(endState[0].id).toBe(todolistId_2);
@@ -27,7 +27,7 @@ test('correct todolist should be added', () => {
         {id: todolistId_2, title: "What to buy", filter: "all"}
     ]
 
-    const endState = todolistsReducer(startState, AddTodolistAC(newTodolistTitle))
+    const endState = todolistsReducer(startState, addTodolistAC(newTodolistTitle))
 
     expect(endState.length).toBe(3);
     expect(endState[2].title).toBe(newTodolistTitle);
@@ -43,7 +43,7 @@ test('correct todolist should change its name', () => {
         {id: todolistId_2, title: "What to buy", filter: "all"}
     ]
 
-    const endState = todolistsReducer(startState, ChangeTodolistTitleAC(newTodolistTitle, todolistId_2));
+    const endState = todolistsReducer(startState, changeTodolistTitleAC(newTodolistTitle, todolistId_2));
 
     expect(endState[0].title).toBe("What to learn");
     expect(endState[1].title).toBe(newTodolistTitle);
@@ -59,7 +59,7 @@ test('correct filter of todolist should be changed', () => {
         {id: todolistId_2, title: "What to buy", filter: "all"}
     ]
 
-    const endState = todolistsReducer(startState, ChangeFilterAC(newFilter, todolistId_2));
+    const endState = todolistsReducer(startState, changeFilterAC(newFilter, todolistId_2));
 
     expect(endState[0].filter).toBe("all");
     expect(endState[1].filter).toBe(newFilter);
