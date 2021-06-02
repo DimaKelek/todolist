@@ -40,13 +40,11 @@ export const tasksReducer = (tasks: TaskStateType = initialState, action: TaskAc
         case "REMOVE-TASK":
             return {
                 ...tasks,
-                [action.todolistID]: [
-                    ...tasks[action.todolistID].filter(t => t.id !== action.taskId)
-                ]
+                [action.todolistID]: tasks[action.todolistID].filter(t => t.id !== action.taskId)
             }
         case "ADD-TASK":
             let newTask: TaskType = {
-                id: action.todolistID,
+                id: v1(),
                 title: action.title,
                 isDone: false
             }
@@ -83,7 +81,9 @@ export const tasksReducer = (tasks: TaskStateType = initialState, action: TaskAc
             delete (tasksCopy[action.todolistID])
             return tasksCopy
         case "ADD-TODOLIST":
+            debugger
             return {
+                ...tasks,
                 [action.todolistID]: []
             }
         default:

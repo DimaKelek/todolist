@@ -1,37 +1,39 @@
 import React, {ChangeEvent} from "react";
 import S from "./Todolist.module.css"
-import {FilterTaskType, TaskType} from "../App";
 import {AddItemForm} from "./AddItemForm/AddItemForm";
 import {EditableSpan} from "./EditableSpan/EditableSpan";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
+import {addTaskAC, changeStatusAC, changeTaskTitleAC, removeTaskAC, TaskType} from "../store/task-reducer";
+import {changeFilterAC, changeTodolistTitleAC, FilterTaskType, removeTodolistAC} from "../store/todolist-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "../store/store";
 
 type TodolistPropsType = {
     todolistID: string
     title: string
-    tasks: TaskType[]
-    removeTask: (taskId: string, todolistID: string) => void
-    changeFilter: (value: FilterTaskType, todolistID: string) => void
-    changeStatus: (taskId: string, isDone: boolean, todolistID: string) => void
-    addTask: (title: string, todolistID: string) => void
     filter: FilterTaskType
-    removeTodolist: (todolistID: string) => void
-    changeTaskTitle: (newTitle: string, taskId: string, todolistID: string) => void
-    changeTodolistTitle: (newTitle: string, todolistID: string) => void
 }
 
 export function Todolist(props: TodolistPropsType) {
+    const tasks = useSelector<AppStateType, Array<TaskType>>(state => state.tasks[props.todolistID])
+    const dispatch = useDispatch()
+    debugger
+    let allTodolistTasks = tasks;
+    let tasksForTodolist = allTodolistTasks;
+    if (props.filter === "active") {
+        tasksForTodolist = allTodolistTasks.filter(t => !t.isDone)
+    } else if (props.filter === "completed") {
+        tasksForTodolist = allTodolistTasks.filter(t => t.isDone)
+    }
+    const renderTasks = tasksForTodolist.map(t => {
 
-    const tasks = props.tasks.map(t => {
-        const removeTask = () => props.removeTask(t.id, props.todolistID)
+        const removeTask = () => dispatch(removeTaskAC(t.id, props.todolistID))
         const changeStatus = (e: ChangeEvent<HTMLInputElement>) => {
             let newIsDone = e.currentTarget.checked
-            props.changeStatus(t.id, newIsDone, props.todolistID)
+            dispatch(changeStatusAC(t.id, newIsDone, props.todolistID))
         }
-        const changeTitle = (newTitle: string) => {
-            props.changeTaskTitle(newTitle, t.id, props.todolistID)
-        }
-
+        const changeTitle = (newTitle: string) => dispatch(changeTaskTitleAC(newTitle, t.id, props.todolistID))
         return (
             <li key={t.id} className={t.isDone ? "is-done" : ""}>
                 <Checkbox color={"primary"} onChange={changeStatus} checked={t.isDone}/>
@@ -44,16 +46,14 @@ export function Todolist(props: TodolistPropsType) {
     })
 
     //---callbacks---//
-    const onClickAll = () => props.changeFilter("all", props.todolistID);
-    const onClickActive = () => props.changeFilter("active", props.todolistID);
-    const onClickCompleted = () => props.changeFilter("completed", props.todolistID);
-    const deleteTodolist = () => {
-        props.removeTodolist(props.todolistID)
-    }
-    const addItem = (title: string) => props.addTask(title, props.todolistID)
-    const changeTodolistTitle = (newTitle: string) => {
-        props.changeTodolistTitle(newTitle, props.todolistID)
-    }
+    const onClickAll = () => dispatch(changeFilterAC("all", props.todolistID));
+    const onClickActive = () => dispatch(changeFilterAC("active", props.todolistID));
+    const onClickCompleted = () => dispatch(changeFilterAC("completed", props.todolistID));
+
+    const deleteTodolist = () => dispatch(removeTodolistAC(props.todolistID))
+    const addItem = (title: string) => dispatch(addTaskAC(title, props.todolistID))
+    const changeTodolistTitle = (newTitle: string) => dispatch(changeTodolistTitleAC(newTitle, props.todolistID))
+
     return (
         <div className={S.todolist}>
             <h3>
@@ -63,7 +63,7 @@ export function Todolist(props: TodolistPropsType) {
                 </IconButton>
             </h3>
             <AddItemForm addItem={addItem}/>
-            <ul>{tasks}</ul>
+            <ul>{renderTasks}</ul>
             <div>
                 <Button
                     onClick={onClickAll}
