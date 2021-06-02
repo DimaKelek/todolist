@@ -1,4 +1,3 @@
-import {TaskStateType, TaskType} from "../App";
 import {addTodolistAC, removeTodolistAC} from "./todolist-reducer";
 import {v1} from "uuid";
 
@@ -9,6 +8,15 @@ export type TaskActionsType =
     | ReturnType<typeof changeTaskTitleAC>
     | ReturnType<typeof removeTodolistAC>
     | ReturnType<typeof addTodolistAC>
+
+export type TaskType = {
+    id: string
+    title: string
+    isDone: boolean
+}
+export type TaskStateType = {
+    [key: string]: Array<TaskType>
+}
 
 export const todolistID_1 = v1()
 export const todolistID_2 = v1()
