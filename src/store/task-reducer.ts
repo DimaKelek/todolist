@@ -1,5 +1,6 @@
 import {TaskStateType, TaskType} from "../App";
 import {addTodolistAC, removeTodolistAC} from "./todolist-reducer";
+import {v1} from "uuid";
 
 export type TaskActionsType =
     ReturnType<typeof removeTaskAC>
@@ -9,7 +10,24 @@ export type TaskActionsType =
     | ReturnType<typeof removeTodolistAC>
     | ReturnType<typeof addTodolistAC>
 
-export const tasksReducer = (tasks: TaskStateType, action: TaskActionsType): TaskStateType => {
+export const todolistID_1 = v1()
+export const todolistID_2 = v1()
+
+const initialState: TaskStateType = {
+    [todolistID_1]: [
+        {id: v1(), title: "HTML", isDone: true},
+        {id: v1(), title: "CSS", isDone: true},
+        {id: v1(), title: "JS", isDone: true},
+        {id: v1(), title: "React", isDone: false},
+        {id: v1(), title: "Redux", isDone: false}
+    ],
+    [todolistID_2]: [
+        {id: v1(), title: "book", isDone: true},
+        {id: v1(), title: "apples", isDone: true},
+    ]
+}
+
+export const tasksReducer = (tasks: TaskStateType = initialState, action: TaskActionsType): TaskStateType => {
     switch (action.type) {
         case "REMOVE-TASK":
             return {
@@ -33,7 +51,7 @@ export const tasksReducer = (tasks: TaskStateType, action: TaskActionsType): Tas
                 ...tasks,
                 [action.todolistID]: [
                     ...tasks[action.todolistID].map(t => {
-                        if(t.id === action.taskId) {
+                        if (t.id === action.taskId) {
                             t.isDone = action.isDone
                         }
                         return t
@@ -45,7 +63,7 @@ export const tasksReducer = (tasks: TaskStateType, action: TaskActionsType): Tas
                 ...tasks,
                 [action.todolistID]: [
                     ...tasks[action.todolistID].map(t => {
-                        if(t.id === action.taskId) {
+                        if (t.id === action.taskId) {
                             t.title = action.newTitle
                         }
                         return t

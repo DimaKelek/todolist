@@ -24,28 +24,6 @@ export type TaskStateType = {
 }
 
 function App() {
-    const todolistID_1 = v1()
-    const todolistID_2 = v1()
-
-    const [todolists, setTodolists] = useState<Array<TodolistType>>([
-        {id: todolistID_1, title: "What to learn", filter: "all"},
-        {id: todolistID_2, title: "What to buy", filter: "all"}
-    ])
-
-    const [tasks, setTasks] = useState<TaskStateType>({
-        [todolistID_1]: [
-            {id: v1(), title: "HTML", isDone: true},
-            {id: v1(), title: "CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "React", isDone: false},
-            {id: v1(), title: "Redux", isDone: false}
-        ],
-        [todolistID_2]: [
-            {id: v1(), title: "book", isDone: true},
-            {id: v1(), title: "apples", isDone: true},
-        ]
-    })
-
     //manipulation of the Tusks
     function addTask(title: string, todolistID: string) {
         let newTask: TaskType = {
