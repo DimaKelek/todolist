@@ -21,19 +21,7 @@ export type TaskStateType = {
 export const todolistID_1 = v1()
 export const todolistID_2 = v1()
 
-const initialState: TaskStateType = {
-    /*[todolistID_1]: [
-        {id: v1(), title: "HTML", isDone: true},
-        {id: v1(), title: "CSS", isDone: true},
-        {id: v1(), title: "JS", isDone: true},
-        {id: v1(), title: "React", isDone: false},
-        {id: v1(), title: "Redux", isDone: false}
-    ],
-    [todolistID_2]: [
-        {id: v1(), title: "book", isDone: true},
-        {id: v1(), title: "apples", isDone: true},
-    ]*/
-}
+const initialState: TaskStateType = {}
 
 export const tasksReducer = (tasks: TaskStateType = initialState, action: TaskActionsType): TaskStateType => {
     switch (action.type) {

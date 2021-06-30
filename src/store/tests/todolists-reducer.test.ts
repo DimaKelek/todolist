@@ -2,22 +2,29 @@ import {
     addTodolistAC,
     changeFilterAC,
     changeTodolistTitleAC, FilterTaskType,
-    removeTodolistAC,
+    removeTodolistAC, setTodolists,
     todolistsReducer, TodolistType
 } from '../todolist-reducer';
 import {v1} from 'uuid';
+import {TodolistAPIType} from "../../api/api";
 
 let todolistId_1: string;
 let todolistId_2: string;
 let startState: Array<TodolistType>
+let getState: TodolistAPIType[]
 
 beforeEach(() => {
     todolistId_1 = v1()
     todolistId_2 = v1()
     startState = [
-        {id: todolistId_1, title: "What to learn", filter: "all"},
-        {id: todolistId_2, title: "What to buy", filter: "all"}
+        {id: todolistId_1, title: "What to learn", filter: "all", order: 2, addedDate: "125"},
+        {id: todolistId_2, title: "What to buy", filter: "all", order: 7, addedDate: "125"}
     ]
+    getState = [
+        {id: todolistId_1, title: "1", order: 2, addedDate: "125"},
+        {id: todolistId_2, title: "2", order: 7, addedDate: "125"}
+    ]
+
 })
 
 test('correct todolist should be removed', () => {
@@ -46,3 +53,9 @@ test('correct filter of todolist should be changed', () => {
     expect(endState[0].filter).toBe("all");
     expect(endState[1].filter).toBe(newFilter);
 });
+
+test('correct todolists should be added', () => {
+    const endState = todolistsReducer(startState, setTodolists(getState));
+});
+
+
