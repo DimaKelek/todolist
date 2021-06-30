@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import './App.css';
-import {Todolist} from "./Components/Todolist";
+import {Todolist} from "./Components/Todolist/Todolist";
 import {AddItemForm} from "./Components/AddItemForm/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from '@material-ui/icons';
@@ -9,11 +9,10 @@ import {AppStateType} from "./store/store";
 import {addTodolistAC, TodolistType} from "./store/todolist-reducer";
 
 function App() {
-    console.log("App");
     const todolists = useSelector<AppStateType, Array<TodolistType>>(state => state.todolists)
     const dispatch = useDispatch()
 
-    const addTodolist = useCallback(function(title: string) {
+    const addTodolist = useCallback((title: string) => {
         dispatch(addTodolistAC(title))
     }, [dispatch])
 
