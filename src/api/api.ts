@@ -36,26 +36,40 @@ export const todolistAPI = {
     }
 }
 
-type TaskApiType = UpdateTaskType & {
+export type TaskType = UpdateTaskType & {
     id: string
     todoListId: string
     order: number
     addedDate: string
 }
 
+export enum TaskStatuses {
+    New,
+    InProgress,
+    Complited,
+    Draft
+}
+
+export enum TaskPriorities {
+    Low,
+    Middle,
+    Hi,
+    Urgently,
+    Later
+}
 type UpdateTaskType = {
     title: string
     description: string
     completed: boolean
-    status: number
-    priority: number
+    status: TaskStatuses
+    priority: TaskPriorities
     startDate: string
     deadline: string
 }
 
 export const taskAPI = {
     getTask(todolistId: string) {
-        return instanse.get<TaskApiType>(`todo-lists/${todolistId}/tasks`)
+        return instanse.get<TaskType>(`todo-lists/${todolistId}/tasks`)
     },
     addTask(todolistId: string, title: string) {
         return instanse.post<ResponseType>(`todo-lists/${todolistId}/tasks`, {title})

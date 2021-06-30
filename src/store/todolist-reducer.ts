@@ -24,7 +24,7 @@ export const todolistsReducer = (todolists: TodolistType[] = initialState, actio
                 id: action.todolistID,
                 title: action.title,
                 addedDate: new Date().toDateString(),
-                order: Math.floor(Math.random()*200),
+                order: 0,
                 filter: "all"
             }
             return [...todolists, newTodolist]
