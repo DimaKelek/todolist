@@ -22,7 +22,7 @@ export const todolistID_1 = v1()
 export const todolistID_2 = v1()
 
 const initialState: TaskStateType = {
-    [todolistID_1]: [
+    /*[todolistID_1]: [
         {id: v1(), title: "HTML", isDone: true},
         {id: v1(), title: "CSS", isDone: true},
         {id: v1(), title: "JS", isDone: true},
@@ -32,7 +32,7 @@ const initialState: TaskStateType = {
     [todolistID_2]: [
         {id: v1(), title: "book", isDone: true},
         {id: v1(), title: "apples", isDone: true},
-    ]
+    ]*/
 }
 
 export const tasksReducer = (tasks: TaskStateType = initialState, action: TaskActionsType): TaskStateType => {
@@ -48,13 +48,11 @@ export const tasksReducer = (tasks: TaskStateType = initialState, action: TaskAc
                 title: action.title,
                 isDone: false
             }
-            return {
-                ...tasks,
+            return {...tasks,
                 [action.todolistID]: [newTask, ...tasks[action.todolistID]]
             }
         case "CHANGE-STATUS":
-            return {
-                ...tasks,
+            return {...tasks,
                 [action.todolistID]: [
                     ...tasks[action.todolistID].map(t => {
                         if (t.id === action.taskId) {
@@ -65,8 +63,7 @@ export const tasksReducer = (tasks: TaskStateType = initialState, action: TaskAc
                 ]
             }
         case "CHANGE-TASK-TITLE":
-            return {
-                ...tasks,
+            return {...tasks,
                 [action.todolistID]: [
                     ...tasks[action.todolistID].map(t => {
                         if (t.id === action.taskId) {
@@ -81,11 +78,7 @@ export const tasksReducer = (tasks: TaskStateType = initialState, action: TaskAc
             delete (tasksCopy[action.todolistID])
             return tasksCopy
         case "ADD-TODOLIST":
-            debugger
-            return {
-                ...tasks,
-                [action.todolistID]: []
-            }
+            return {...tasks, [action.todolistID]: []}
         default:
             return tasks
     }

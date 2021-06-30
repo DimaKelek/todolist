@@ -25,6 +25,7 @@ test('correct task should be removed', () => {
     expect(endState["todolistID_1"][0].id).toBe("2")
     expect(endState["todolistID_1"].length).toBe(4)
 });
+
 test('correct task should be added', () => {
     const action = addTaskAC("MobX", "todolistID_1")
     const endState = tasksReducer(state, action)
@@ -32,12 +33,14 @@ test('correct task should be added', () => {
     expect(endState["todolistID_1"][0].title).toBe("MobX")
     expect(endState["todolistID_1"].length).toBe(6)
 });
+
 test('correct task status should be changed', () => {
     const action = changeStatusAC("6", false, "todolistID_2")
     const endState = tasksReducer(state, action)
 
     expect(endState["todolistID_2"][0].isDone).toBe(false)
 });
+
 test('correct task title should be changed', () => {
     const action = changeTaskTitleAC("HTML5", "1", "todolistID_1")
     const endState = tasksReducer(state, action)
