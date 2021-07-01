@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {Todolist} from "./Components/Todolist/Todolist";
 import {AddItemForm} from "./Components/AddItemForm/AddItemForm";
@@ -6,14 +6,19 @@ import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography}
 import {Menu} from '@material-ui/icons';
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "./store/store";
-import {addTodolistAC, TodolistType} from "./store/todolist-reducer";
+import {addTodolist, getTodolists, TodolistDomainType} from "./store/todolist-reducer";
 
 function App() {
-    const todolists = useSelector<AppStateType, Array<TodolistType>>(state => state.todolists)
+    const todolists = useSelector<AppStateType, Array<TodolistDomainType>>(state => state.todolists)
     const dispatch = useDispatch()
 
-    const addTodolist = useCallback((title: string) => {
-        dispatch(addTodolistAC(title))
+    useEffect(() => {
+        dispatch(getTodolists())
+    }, [dispatch])
+
+
+    const onClickAddTodolist = useCallback((title: string) => {
+        dispatch(addTodolist(title))
     }, [dispatch])
 
     const todolistComponents = todolists.map(tl => {
@@ -42,7 +47,7 @@ function App() {
             </AppBar>
             <Container fixed>
                 <Grid container style={{padding: "20px 0"}}>
-                    <AddItemForm addItem={addTodolist}/>
+                    <AddItemForm addItem={onClickAddTodolist}/>
                 </Grid>
                 <Grid container spacing={3}>
                     {todolistComponents}

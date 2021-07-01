@@ -1,23 +1,25 @@
 import {tasksReducer, TaskStateType} from "../task-reducer";
-import {addTodolistAC, todolistsReducer, TodolistType} from "../todolist-reducer";
+import {addTodolistAC, TodolistDomainType, todolistsReducer} from "../todolist-reducer";
+import {TaskPriorities, TaskStatuses} from "../../api/api";
 
 test('ids should be equals', () => {
     const startTasksState: TaskStateType = {
         ["todolistID_1"]: [
-            {id: "1", title: "HTML", isDone: true},
-            {id: "2", title: "CSS", isDone: true},
-            {id: "3", title: "JS", isDone: true},
-            {id: "4", title: "React", isDone: false},
-            {id: "5", title: "Redux", isDone: false}
+            {id: "1", title: "HTML",
+                completed: true, todoListId: "todolistID_1",
+                status: TaskStatuses.New, startDate: "", addedDate: "",
+                priority: TaskPriorities.Low, order: 0, description: "", deadline: "" },
         ],
-        ["todolistID_2"]: [
-            {id: "6", title: "book", isDone: true},
-            {id: "7", title: "apples", isDone: true},
+            ["todolistID_2"]: [
+            {id: "2", title: "Book",
+                completed: false, todoListId: "todolistID_2",
+                status: TaskStatuses.New, startDate: "", addedDate: "",
+                priority: TaskPriorities.Low, order: 0, description: "", deadline: "" },
         ]
     };
-    const startTodolistsState: Array<TodolistType> = [
-        {id: "todolistId_1", title: "What to learn", filter: "all"},
-        {id: "todolistId_2", title: "What to buy", filter: "all"}
+    const startTodolistsState: Array<TodolistDomainType> = [
+        {id: "todolistId_1", title: "What to learn", filter: "all", order: 2, addedDate: "125"},
+        {id: "todolistId_2", title: "What to buy", filter: "all", order: 7, addedDate: "125"}
     ];
 
     const action = addTodolistAC("new todolist");

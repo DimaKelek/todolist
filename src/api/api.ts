@@ -8,7 +8,7 @@ const instanse = axios.create({
     }
 })
 
-export type TodolistAPIType = {
+export type TodolistType = {
     id: string
     title: string
     addedDate: string
@@ -23,10 +23,10 @@ type ResponseType<D = {}> = {
 
 export const todolistAPI = {
     getTodolists() {
-        return instanse.get<TodolistAPIType[]>("todo-lists")
+        return instanse.get<TodolistType[]>("todo-lists")
     },
     addTodolist(title: string) {
-        return instanse.post<ResponseType<{item: TodolistAPIType}>>("todo-lists", {title})
+        return instanse.post<ResponseType<{item: TodolistType}>>("todo-lists", {title})
     },
     updateTodolist(todolistId: string, title: string) {
         return instanse.put<ResponseType>(`todo-lists/${todolistId}`, {title})
@@ -35,7 +35,11 @@ export const todolistAPI = {
         return instanse.delete<ResponseType>(`todo-lists/${todolistId}`)
     }
 }
-
+type GetTasksType = {
+    items: TaskType[]
+    totalCount: number
+    error: string | null
+}
 export type TaskType = UpdateTaskType & {
     id: string
     todoListId: string
@@ -46,7 +50,7 @@ export type TaskType = UpdateTaskType & {
 export enum TaskStatuses {
     New,
     InProgress,
-    Complited,
+    Completed,
     Draft
 }
 
@@ -60,7 +64,6 @@ export enum TaskPriorities {
 type UpdateTaskType = {
     title: string
     description: string
-    completed: boolean
     status: TaskStatuses
     priority: TaskPriorities
     startDate: string
@@ -68,14 +71,14 @@ type UpdateTaskType = {
 }
 
 export const taskAPI = {
-    getTask(todolistId: string) {
-        return instanse.get<TaskType>(`todo-lists/${todolistId}/tasks`)
+    getTasks(todolistId: string) {
+        return instanse.get<GetTasksType>(`todo-lists/${todolistId}/tasks`)
     },
     addTask(todolistId: string, title: string) {
         return instanse.post<ResponseType>(`todo-lists/${todolistId}/tasks`, {title})
     },
     updateTask(todolistId: string, taskId: string, newTaskData: UpdateTaskType) {
-        return instanse.put<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`, newTaskData)
+        return instanse.put<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, newTaskData)
     },
     removeTask(todolistId: string, taskId: string) {
         return instanse.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
