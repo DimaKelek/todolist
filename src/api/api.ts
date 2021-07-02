@@ -75,7 +75,7 @@ export const taskAPI = {
         return instanse.get<GetTasksType>(`todo-lists/${todolistId}/tasks`)
     },
     addTask(todolistId: string, title: string) {
-        return instanse.post<ResponseType>(`todo-lists/${todolistId}/tasks`, {title})
+        return instanse.post<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks`, {title})
     },
     updateTask(todolistId: string, taskId: string, newTaskData: UpdateTaskType) {
         return instanse.put<ResponseType<{item: TaskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, newTaskData)

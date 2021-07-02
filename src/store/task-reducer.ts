@@ -29,17 +29,7 @@ export const tasksReducer = (tasks: TaskStateType = initialState, action: TaskAc
                 [action.todolistID]: tasks[action.todolistID].filter(t => t.id !== action.taskId)
             }
         case "ADD-TASK":
-            let newTask: TaskType = {
-                id: v1(),
-                title: action.title,
-                priority: TaskPriorities.Low,
-                status: TaskStatuses.New,
-                todoListId: action.todolistID,
-                deadline: "", description: "", order: 0, startDate: "", addedDate: ""
-            }
-            return {...tasks,
-                [action.todolistID]: [newTask, ...tasks[action.todolistID]]
-            }
+            return {...tasks, [action.task.todoListId]: [action.task, ...tasks[action.task.todoListId]]}
         case "CHANGE-STATUS":
             return {
                 ...tasks,
@@ -87,8 +77,8 @@ export const tasksReducer = (tasks: TaskStateType = initialState, action: TaskAc
 export const removeTaskAC = (taskId: string, todolistID: string) => {
     return {type: "REMOVE-TASK", taskId, todolistID} as const
 }
-export const addTaskAC = (title: string, todolistID: string) => {
-    return {type: "ADD-TASK", title, todolistID} as const
+export const addTaskAC = (task: TaskType) => {
+    return {type: "ADD-TASK", task} as const
 }
 export const changeStatusAC = (taskId: string, status: TaskStatuses, todolistID: string) => {
     return {type: "CHANGE-STATUS", taskId, status, todolistID} as const
@@ -119,7 +109,7 @@ export const addTask = (todolistID: string, title: string) => {
         taskAPI.addTask(todolistID, title)
             .then(response => {
                 if(response.data.resultCode === 0) {
-                    dispatch(addTaskAC(title, todolistID))
+                    dispatch(addTaskAC(response.data.data.item))
                 }
             })
     }

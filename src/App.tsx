@@ -16,7 +16,6 @@ function App() {
         dispatch(getTodolists())
     }, [dispatch])
 
-
     const onClickAddTodolist = useCallback((title: string) => {
         dispatch(addTodolist(title))
     }, [dispatch])

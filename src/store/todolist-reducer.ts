@@ -22,12 +22,7 @@ export const todolistsReducer = (todolists: TodolistDomainType[] = initialState,
         case "REMOVE-TODOLIST":
             return todolists.filter(tl => tl.id !== action.todolistID)
         case "ADD-TODOLIST":
-            let newTodolist: TodolistDomainType = {
-                id: action.todolistID,
-                title: action.title,
-                addedDate: "", order: 0, filter: "all"
-            }
-            return [...todolists, newTodolist]
+            return [...todolists, {...action.todolist, filter: "all"}]
         case "CHANGE-TODOLIST-TITLE":
             let todolist = todolists.find(tl => tl.id === action.todolistID)
             if (todolist) {
@@ -46,8 +41,8 @@ export const todolistsReducer = (todolists: TodolistDomainType[] = initialState,
 export const removeTodolistAC = (todolistID: string) => {
     return {type: "REMOVE-TODOLIST", todolistID} as const
 }
-export const addTodolistAC = (title: string) => {
-    return {type: "ADD-TODOLIST", title, todolistID: v1()} as const
+export const addTodolistAC = (todolist: TodolistType) => {
+    return {type: "ADD-TODOLIST", todolist} as const
 }
 export const changeTodolistTitleAC = (newTitle: string, todolistID: string) => {
     return {type: "CHANGE-TODOLIST-TITLE", newTitle, todolistID} as const
@@ -75,7 +70,7 @@ export const addTodolist = (title: string) => {
         todolistAPI.addTodolist(title)
             .then(response => {
                 if(response.data.resultCode === 0) {
-                    dispatch(addTodolistAC(title))
+                    dispatch(addTodolistAC(response.data.data.item))
                 }
             })
     }
