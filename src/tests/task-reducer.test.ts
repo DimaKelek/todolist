@@ -1,5 +1,5 @@
-import {addTaskAC, changeStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer, TaskStateType} from "../task-reducer";
-import {TaskPriorities, TaskStatuses} from "../../api/api";
+import {addTaskAC, changeStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer, TaskStateType} from "../store/task-reducer";
+import {TaskPriorities, TaskStatuses} from "../api/api";
 
 let state: TaskStateType;
 
