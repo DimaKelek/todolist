@@ -2,6 +2,7 @@ import {addTodolistAC, changeTodolistEntityStatus, removeTodolistAC, setTodolist
 import {taskAPI, TaskStatuses, TaskType} from "../api/api";
 import {AppThunk} from "./store";
 import {RequestStatusType, setAppStatus, setError} from "./app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../utils/errorHandler";
 
 const initialState: TaskStateType = {}
 
@@ -80,18 +81,12 @@ export const addTask = (todolistID: string, title: string): AppThunk => (dispatc
                 dispatch(changeTodolistEntityStatus(todolistID, "succeeded"))
                 dispatch(setAppStatus("succeeded"))
             } else {
-                if (response.data.messages.length) {
-                    dispatch(setError(response.data.messages[0]))
-                } else {
-                    dispatch(setError("Some error"))
-                }
-                dispatch(setAppStatus("failed"))
+                handleServerAppError(response.data, dispatch)
                 dispatch(changeTodolistEntityStatus(todolistID, "failed"))
             }
         })
         .catch(error => {
-            dispatch(setError(error.message))
-            dispatch(setAppStatus("failed"))
+            handleServerNetworkError(error, dispatch)
             dispatch(changeTodolistEntityStatus(todolistID, "failed"))
         })
 }
@@ -107,19 +102,13 @@ export const deleteTask = (todolistID: string, taskID: string): AppThunk => (dis
                 dispatch(changeTodolistEntityStatus(todolistID, "succeeded"))
                 dispatch(changeTaskEntityStatus(todolistID, taskID, "succeeded"))
             } else {
-                if (response.data.messages.length) {
-                    dispatch(setError(response.data.messages[0]))
-                } else {
-                    dispatch(setError("Some error"))
-                }
-                dispatch(setAppStatus("failed"))
+                handleServerAppError(response.data, dispatch)
                 dispatch(changeTodolistEntityStatus(todolistID, "failed"))
             }
         })
         .catch(error => {
-            dispatch(setError(error.message))
+            handleServerNetworkError(error, dispatch)
             dispatch(changeTodolistEntityStatus(todolistID, "failed"))
-            dispatch(setAppStatus("failed"))
         })
 }
 export const updateTaskStatus = (todolistID: string, taskID: string, status: TaskStatuses): AppThunk =>
@@ -143,18 +132,12 @@ export const updateTaskStatus = (todolistID: string, taskID: string, status: Tas
                     dispatch(changeTaskEntityStatus(todolistID, taskID, "succeeded"))
                     dispatch(setAppStatus("succeeded"))
                 } else {
-                    if (response.data.messages.length) {
-                        dispatch(setError(response.data.messages[0]))
-                    } else {
-                        dispatch(setError("Some error"))
-                    }
-                    dispatch(setAppStatus("failed"))
+                    handleServerAppError(response.data, dispatch)
                     dispatch(changeTodolistEntityStatus(todolistID, "failed"))
                 }
             }).catch(error => {
-                dispatch(setError(error.message))
+                handleServerNetworkError(error, dispatch)
                 dispatch(changeTodolistEntityStatus(todolistID, "failed"))
-                dispatch(setAppStatus("failed"))
             })
         }
     }
@@ -179,18 +162,12 @@ export const updateTaskTitle = (todolistID: string, taskID: string, title: strin
                     dispatch(changeTaskEntityStatus(todolistID, taskID, "succeeded"))
                     dispatch(setAppStatus("succeeded"))
                 } else {
-                    if (response.data.messages.length) {
-                        dispatch(setError(response.data.messages[0]))
-                    } else {
-                        dispatch(setError("Some error"))
-                    }
-                    dispatch(setAppStatus("failed"))
+                    handleServerAppError(response.data, dispatch)
                     dispatch(changeTodolistEntityStatus(todolistID, "failed"))
                 }
             }).catch(error => {
-                dispatch(setError(error.message))
+                handleServerNetworkError(error, dispatch)
                 dispatch(changeTodolistEntityStatus(todolistID, "failed"))
-                dispatch(setAppStatus("failed"))
             })
         }
     }
@@ -206,7 +183,10 @@ export type TaskActionsType =
     | ReturnType<typeof setTodolists>
     | ReturnType<typeof setTasks>
     | ReturnType<typeof setAppStatus>
-    | ReturnType<typeof changeTodolistEntityStatus>
+    | ChangeEntityStatusType
+
+export type ChangeEntityStatusType =
+    ReturnType<typeof changeTodolistEntityStatus>
     | ReturnType<typeof changeTaskEntityStatus>
 
 export type TaskDomainType = TaskType & {
