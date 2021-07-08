@@ -4,6 +4,7 @@ import {AddBox} from "@material-ui/icons";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
 
 export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
@@ -16,7 +17,7 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
     }
     const addItemClick = () => {
         const trimmedTitle = title.trim()
-        if(trimmedTitle) {
+        if (trimmedTitle) {
             props.addItem(trimmedTitle)
             setError(null)
         } else {
@@ -26,28 +27,26 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
     }
 
     const onKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-        if(e.key === "Enter") {
+        if (e.key === "Enter") {
             props.addItem(title)
             setTitle("")
         }
     }
     return (
         <div>
-            <div>
-                <TextField
-                    value={title}
-                    onChange={changeTitle}
-                    onKeyPress={onKeyPress}
-                    label="Task title"
-                    variant="outlined"
-                    helperText={error}
-                    error={!!error}
-                />
-                <IconButton onClick={addItemClick}>
-                    <AddBox color={"primary"}/>
-                </IconButton>
-
-            </div>
+            <TextField
+                value={title}
+                onChange={changeTitle}
+                onKeyPress={onKeyPress}
+                label="Task title"
+                variant="outlined"
+                helperText={error}
+                error={!!error}
+                disabled={props.disabled}
+            />
+            <IconButton onClick={addItemClick} disabled={props.disabled}>
+                <AddBox color={props.disabled ? "disabled" : "primary"} />
+            </IconButton>
         </div>
     );
 })

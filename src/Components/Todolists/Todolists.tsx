@@ -22,7 +22,7 @@ export const Todolists: React.FC = React.memo(() => {
         return (
             <Grid item key={tl.id}>
                 <Paper elevation={10} style={{padding: "20px"}}>
-                    <Todolist todolistID={tl.id} title={tl.title} filter={tl.filter}/>
+                    <Todolist todolist={tl} entityStatus={tl.entityStatus}/>
                 </Paper>
             </Grid>
         );
@@ -30,7 +30,7 @@ export const Todolists: React.FC = React.memo(() => {
     return (
         <>
             <Grid container style={{padding: "20px 0"}}>
-                <AddItemForm addItem={onClickAddTodolist}/>
+                <AddItemForm addItem={onClickAddTodolist} />
             </Grid>
             <Grid container spacing={3}>
                 {todolistItems}

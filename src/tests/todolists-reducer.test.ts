@@ -21,16 +21,14 @@ beforeEach(() => {
     todolistId_1 = v1()
     todolistId_2 = v1()
     startState = [
-        {id: todolistId_1, title: "What to learn", filter: "all", order: 2, addedDate: "125"},
-        {id: todolistId_2, title: "What to buy", filter: "all", order: 7, addedDate: "125"}
+        {id: todolistId_1, title: "What to learn", filter: "all", order: 2, addedDate: "125", entityStatus: "idle"},
+        {id: todolistId_2, title: "What to buy", filter: "all", order: 7, addedDate: "125", entityStatus: "idle"}
     ]
     startStateForApi = []
     getTodolists = [
         {id: todolistId_1, title: "1", order: 2, addedDate: "125"},
         {id: todolistId_2, title: "2", order: 7, addedDate: "125"}
     ]
-
-
 })
 
 test('correct todolist should be removed', () => {
@@ -40,10 +38,10 @@ test('correct todolist should be removed', () => {
 });
 
 test('correct todolist should be added', () => {
-    let newTodolistTitle = "New TodoList";
-    const endState = todolistsReducer(startState, addTodolistAC(newTodolistTitle))
+    let newTodolist = {id: todolistId_1, title: "1", order: 2, addedDate: "125"};
+    const endState = todolistsReducer(startState, addTodolistAC(newTodolist))
     expect(endState.length).toBe(3);
-    expect(endState[2].title).toBe(newTodolistTitle);
+    expect(endState[2].title).toBe("1");
 });
 
 test('correct todolist should change its name', () => {
