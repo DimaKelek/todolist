@@ -70,7 +70,7 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
                         <Delete/>
                     </IconButton>
                 </h3>
-                <AddItemForm addItem={addItem} disabled={props.entityStatus === "loading"}/>
+                <AddItemForm placeholder={"Task title"} addItem={addItem} disabled={props.entityStatus === "loading"}/>
                 <div className={S.task_box}>
                     <ul>{renderTasks}</ul>
                 </div>

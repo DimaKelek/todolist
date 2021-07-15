@@ -5,6 +5,7 @@ import {AddBox} from "@material-ui/icons";
 type AddItemFormPropsType = {
     addItem: (title: string) => void
     disabled?: boolean
+    placeholder: string
 }
 
 export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
@@ -38,7 +39,7 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
                 value={title}
                 onChange={changeTitle}
                 onKeyPress={onKeyPress}
-                label="Task title"
+                label={props.placeholder}
                 variant="outlined"
                 helperText={error}
                 error={!!error}

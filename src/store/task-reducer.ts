@@ -1,5 +1,5 @@
 import {addTodolistAC, changeTodolistEntityStatus, removeTodolistAC, setTodolists} from "./todolist-reducer";
-import {taskAPI, TaskStatuses, TaskType} from "../api/api";
+import {ServerResponses, taskAPI, TaskStatuses, TaskType} from "../api/api";
 import {AppThunk} from "./store";
 import {RequestStatusType, setAppStatus, setError} from "./app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/errorHandler";
@@ -76,7 +76,7 @@ export const addTask = (todolistID: string, title: string): AppThunk => (dispatc
     taskAPI.addTask(todolistID, title)
         .then(response => {
             debugger
-            if(response.data.resultCode === 0) {
+            if(response.data.resultCode === ServerResponses.Success) {
                 dispatch(addTaskAC(response.data.data.item))
                 dispatch(changeTodolistEntityStatus(todolistID, "succeeded"))
                 dispatch(setAppStatus("succeeded"))
@@ -96,7 +96,7 @@ export const deleteTask = (todolistID: string, taskID: string): AppThunk => (dis
     dispatch(changeTaskEntityStatus(todolistID, taskID, "loading"))
     taskAPI.removeTask(todolistID, taskID)
         .then(response => {
-            if(response.data.resultCode === 0) {
+            if(response.data.resultCode === ServerResponses.Success) {
                 dispatch(removeTaskAC(taskID, todolistID))
                 dispatch(setAppStatus("succeeded"))
                 dispatch(changeTodolistEntityStatus(todolistID, "succeeded"))
@@ -126,7 +126,7 @@ export const updateTaskStatus = (todolistID: string, taskID: string, status: Tas
                 startDate: task.startDate,
                 priority: task.priority
             }).then(response => {
-                if(response.data.resultCode === 0) {
+                if(response.data.resultCode === ServerResponses.Success) {
                     dispatch(changeStatusAC(taskID, status, todolistID))
                     dispatch(changeTodolistEntityStatus(todolistID, "succeeded"))
                     dispatch(changeTaskEntityStatus(todolistID, taskID, "succeeded"))
@@ -156,7 +156,7 @@ export const updateTaskTitle = (todolistID: string, taskID: string, title: strin
                 startDate: task.startDate,
                 priority: task.priority
             }).then(response => {
-                if(response.data.resultCode === 0) {
+                if(response.data.resultCode === ServerResponses.Success) {
                     dispatch(changeTaskTitleAC(title, taskID, todolistID))
                     dispatch(changeTodolistEntityStatus(todolistID, "succeeded"))
                     dispatch(changeTaskEntityStatus(todolistID, taskID, "succeeded"))

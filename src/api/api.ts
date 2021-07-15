@@ -18,6 +18,7 @@ export type TodolistType = {
 export type ResponseType<D = {}> = {
     resultCode: number
     messages: string[]
+    fieldsErrors: string[]
     data: D
 }
 
@@ -48,10 +49,16 @@ export type TaskType = UpdateTaskType & {
 }
 
 export enum TaskStatuses {
-    New,
-    InProgress,
-    Completed,
-    Draft
+    New = 0,
+    InProgress = 1,
+    Completed = 2,
+    Draft = 3
+}
+
+export enum ServerResponses {
+    Success = 0,
+    Error = 1,
+    captchaSuccess = 10
 }
 
 export enum TaskPriorities {
@@ -82,5 +89,29 @@ export const taskAPI = {
     },
     removeTask(todolistId: string, taskId: string) {
         return instanse.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
+    }
+}
+
+export type AuthDataType = {
+    id: number,
+    login: string,
+    email: string
+}
+
+export type LoginRequestType = {
+    email: string
+    password: string
+    rememberMe: boolean
+}
+
+export const authAPI = {
+    authMe() {
+        return instanse.get<ResponseType<AuthDataType>>(`auth/me`)
+    },
+    login(data: LoginRequestType) {
+        return instanse.post<ResponseType<{userId: number}>>(`auth/login`, data)
+    },
+    logout() {
+        return instanse.delete<ResponseType>(`auth/login`)
     }
 }
