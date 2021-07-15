@@ -33,7 +33,7 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
         }
     }
     return (
-        <div>
+        <div style={{height: "80px"}}>
             <TextField
                 value={title}
                 onChange={changeTitle}

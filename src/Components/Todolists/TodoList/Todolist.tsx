@@ -1,15 +1,16 @@
 import React, {useCallback, useEffect} from "react";
 import {AddItemForm} from "../../Common/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../Common/EditableSpan/EditableSpan";
-import {Button, IconButton} from "@material-ui/core";
+import {Button, IconButton, Paper} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {addTask, getTasks, TaskDomainType} from "../../../store/task-reducer";
 import {changeFilterAC, removeTodolist, TodolistDomainType, updateTodolistTitle} from "../../../store/todolist-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../store/store";
-import {TaskStatuses, TaskType} from "../../../api/api";
+import {TaskStatuses} from "../../../api/api";
 import {Task} from "./Task/Task";
 import {RequestStatusType} from "../../../store/app-reducer";
+import S from "./Todolist.module.css"
 
 type TodolistPropsType = {
     todolist: TodolistDomainType
@@ -60,33 +61,37 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     }, [dispatch, props.todolist.id])
 
     return (
-        <div>
-            <h3>
-                <EditableSpan title={props.todolist.title} onChangeTitle={changeTodolistTitle}
-                              disabled={props.entityStatus === "loading"}/>
-                <IconButton onClick={deleteTodolist} disabled={props.entityStatus === "loading"}>
-                    <Delete/>
-                </IconButton>
-            </h3>
-            <AddItemForm addItem={addItem} disabled={props.entityStatus === "loading"}/>
-            <ul>{renderTasks}</ul>
+        <Paper elevation={10} className={S.todolist}>
             <div>
-                <Button
-                    onClick={onClickAll}
-                    variant={props.todolist.filter === "all" ? "contained" : "text"}
-                    color={"primary"}
-                >All</Button>
-                <Button
-                    onClick={onClickActive}
-                    variant={props.todolist.filter === "active" ? "contained" : "text"}
-                    color={"primary"}
-                >Active</Button>
-                <Button
-                    onClick={onClickCompleted}
-                    variant={props.todolist.filter === "completed" ? "contained" : "text"}
-                    color={"primary"}
-                >Completed</Button>
+                <h3>
+                    <EditableSpan title={props.todolist.title} onChangeTitle={changeTodolistTitle}
+                                  disabled={props.entityStatus === "loading"}/>
+                    <IconButton onClick={deleteTodolist} disabled={props.entityStatus === "loading"}>
+                        <Delete/>
+                    </IconButton>
+                </h3>
+                <AddItemForm addItem={addItem} disabled={props.entityStatus === "loading"}/>
+                <div className={S.task_box}>
+                    <ul>{renderTasks}</ul>
+                </div>
+                <div>
+                    <Button
+                        onClick={onClickAll}
+                        variant={props.todolist.filter === "all" ? "contained" : "text"}
+                        color={"primary"}
+                    >All</Button>
+                    <Button
+                        onClick={onClickActive}
+                        variant={props.todolist.filter === "active" ? "contained" : "text"}
+                        color={"primary"}
+                    >Active</Button>
+                    <Button
+                        onClick={onClickCompleted}
+                        variant={props.todolist.filter === "completed" ? "contained" : "text"}
+                        color={"primary"}
+                    >Completed</Button>
+                </div>
             </div>
-        </div>
+        </Paper>
     );
 })

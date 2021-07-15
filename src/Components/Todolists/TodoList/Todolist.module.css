@@ -1,0 +1,24 @@
+.todolist {
+    padding: 20px;
+    background: linear-gradient(315deg, #0cd66c, #4cb5ea);
+}
+
+.task_box {
+    height: 180px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #36a2e7;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #214cc6;
+}

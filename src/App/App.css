@@ -2,3 +2,11 @@
     width: 100%;
     height: 5px;
 }
+
+.App {
+    min-height: 100vh;
+    width: 100%;
+    background: url("https://goo.su/6MBh") no-repeat;
+    background-size: cover;
+    background-color: #db0020;
+}

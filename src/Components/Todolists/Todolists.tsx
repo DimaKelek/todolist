@@ -21,9 +21,7 @@ export const Todolists: React.FC = React.memo(() => {
     const todolistItems = todolists.map(tl => {
         return (
             <Grid item key={tl.id}>
-                <Paper elevation={10} style={{padding: "20px"}}>
-                    <Todolist todolist={tl} entityStatus={tl.entityStatus}/>
-                </Paper>
+                <Todolist todolist={tl} entityStatus={tl.entityStatus}/>
             </Grid>
         );
     })
