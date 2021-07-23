@@ -19,6 +19,5 @@ export type AppStateType = ReturnType<typeof rootReducer>
 export type AppActionsType = TaskActionsType | TodolistActionsType | AppReducerActionsType
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, AppActionsType>
 
-
 //@ts-ignore
 window.store = store
