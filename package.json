@@ -1,6 +1,6 @@
 {
   "name": "my-todolist",
-  "homepage": "https://dimakelek.github.io/todolists",
+  "homepage": "https://dimakelek.github.io/todolist",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
