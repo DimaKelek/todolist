@@ -8,31 +8,31 @@ const initialState: TaskStateType = {}
 
 export const tasksReducer = (tasks = initialState, action: TaskActionsType): TaskStateType => {
     switch (action.type) {
-        case "REMOVE-TASK":
+        case "TASK/REMOVE-TASK":
             return {...tasks, [action.todolistID]: tasks[action.todolistID]
                     .filter(t => t.id !== action.taskID)}
-        case "ADD-TASK":
+        case "TASK/ADD-TASK":
             return {...tasks, [action.task.todoListId]: [
                     {...action.task, entityTaskStatus: "idle"}, ...tasks[action.task.todoListId]
                 ]}
-        case "CHANGE-STATUS":
+        case "TASK/CHANGE-STATUS":
             return {...tasks, [action.todolistID]: [...tasks[action.todolistID]]
                     .map(t => t.id === action.taskID ? {...t, status: action.status} : t)}
-        case "CHANGE-TASK-TITLE":
+        case "TASK/CHANGE-TASK-TITLE":
             return {...tasks, [action.todolistID]: [...tasks[action.todolistID]
                     .map(t => t.id === action.taskID ? {...t, title: action.newTitle} : t)]}
-        case "REMOVE-TODOLIST":
+        case "TODOLIST/REMOVE-TODOLIST":
             let tasksCopy = {...tasks}
             delete (tasksCopy[action.todolistID])
             return tasksCopy
-        case "ADD-TODOLIST":
+        case "TODOLIST/ADD-TODOLIST":
             return {...tasks, [action.todolist.id]: []}
-        case "SET-TODOLIST": {
+        case "TODOLIST/SET-TODOLIST": {
             let tasksCopy = {...tasks}
             action.todolists.forEach(tl => tasksCopy[tl.id] = [])
             return tasksCopy
         }
-        case "SET-TASKS":
+        case "TASK/SET-TASKS":
             return {...tasks, [action.todolistID]: [...action.tasks]
                     .map(t => ({...t, entityTaskStatus: "idle"}))}
         case "TASK/CHANGE-ENTITY-STATUS":
@@ -45,15 +45,15 @@ export const tasksReducer = (tasks = initialState, action: TaskActionsType): Tas
 
 // actions
 export const removeTaskAC = (taskID: string, todolistID: string) =>
-    ({type: "REMOVE-TASK", taskID, todolistID} as const)
+    ({type: "TASK/REMOVE-TASK", taskID, todolistID} as const)
 export const addTaskAC = (task: TaskType) =>
-    ({type: "ADD-TASK", task} as const)
+    ({type: "TASK/ADD-TASK", task} as const)
 export const changeStatusAC = (taskID: string, status: TaskStatuses, todolistID: string) =>
-    ({type: "CHANGE-STATUS", taskID, status, todolistID} as const)
+    ({type: "TASK/CHANGE-STATUS", taskID, status, todolistID} as const)
 export const changeTaskTitleAC = (newTitle: string, taskID: string, todolistID: string) =>
-    ({type: "CHANGE-TASK-TITLE", newTitle, taskID, todolistID} as const)
+    ({type: "TASK/CHANGE-TASK-TITLE", newTitle, taskID, todolistID} as const)
 export const setTasks = (tasks: TaskType[], todolistID: string) =>
-    ({type: "SET-TASKS", tasks, todolistID} as const)
+    ({type: "TASK/SET-TASKS", tasks, todolistID} as const)
 export const changeTaskEntityStatus = (todolistID: string, taskID: string, status: RequestStatusType) =>
     ({type: "TASK/CHANGE-ENTITY-STATUS", todolistID, taskID, status} as const)
 

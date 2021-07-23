@@ -16,11 +16,11 @@ export const AppMenu: React.FC<AppMenuPropsType> = props => {
 
     return (
         <Toolbar style={{justifyContent: "space-between"}}>
-            {props.isLoggedIn && <Button onClick={logoutHandler} color={"inherit"} variant={"outlined"}>Log out</Button>}
-            <Typography variant={"h6"}>TODOLISTS</Typography>
             <IconButton color={"inherit"}>
                 <Menu/>
             </IconButton>
+            <Typography variant={"h6"}>TODOLISTS</Typography>
+            {props.isLoggedIn && <Button onClick={logoutHandler} color={"inherit"} variant={"outlined"}>Log out</Button>}
         </Toolbar>
     )
 }

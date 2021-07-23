@@ -29,7 +29,6 @@ export const Login = () => {
     const dispatch = useDispatch()
     const [open, setOpen] = React.useState(false);
 
-
     const text = `Test Email: free@samuraijs.com Test Password: free`
     const handleTooltip = () => {
         setOpen(!open);

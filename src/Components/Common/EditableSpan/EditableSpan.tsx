@@ -29,6 +29,7 @@ export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
                 autoFocus
                 onBlur={offEditMode}
               />
-            : <div style={{display: "inline-block", minWidth: "50px"}} onDoubleClick={onEditMode}>{props.title}</div>
+            : <div style={{display: "inline-block", minWidth: "50px"}} onDoubleClick={onEditMode}>
+                {props.title}</div>
     );
 })

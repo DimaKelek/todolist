@@ -8,7 +8,7 @@ import {AppStateType} from "../store/store";
 import {authMe, RequestStatusType} from "../store/app-reducer";
 import {ErrorSnackbar} from "../Components/Common/ErrorSnackbar/ErrorSnackbar";
 import {ComplitedSnackbar} from "../Components/Common/ComplitedSnackbar/ComplitedSnackbar";
-import {Route, Switch, BrowserRouter, Redirect} from 'react-router-dom';
+import {HashRouter, Redirect, Route, Switch} from 'react-router-dom';
 import {Login} from "../Components/Login/Login";
 
 function App() {
@@ -37,14 +37,14 @@ function App() {
                 <div className="progress">{status === "loading" && <LinearProgress/>}</div>
             </AppBar>
             <Container fixed>
-                <BrowserRouter>
+                <HashRouter>
                     <Switch>
                         <Route exact path={"/"} render={() => <Todolists/>}/>
                         <Route path={"/login"} render={() => <Login/>}/>
                         <Route path={"/404"} render={() => <h1>404 залупа</h1>}/>
                         <Redirect from={"*"} to={"/404"}/>
                     </Switch>
-                </BrowserRouter>
+                </HashRouter>
             </Container>
         </div>
     );

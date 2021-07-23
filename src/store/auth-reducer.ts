@@ -19,7 +19,6 @@ export const authReducer = (state: InitialStateType = initialState, action: Auth
 export const setIsLoggedIn = (value: boolean) => ({type: "LOGIN/SET-IS-LOGGED-IN", value} as const)
 
 // thunks
-
 export const login = (data: LoginRequestType): AppThunk => dispatch => {
     dispatch(setAppStatus('loading'))
     authAPI.login(data)
