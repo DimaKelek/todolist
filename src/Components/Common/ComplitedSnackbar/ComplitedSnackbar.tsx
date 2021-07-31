@@ -9,7 +9,7 @@ function Alert(props: AlertProps) {
     return <MuiAlert elevation={6} variant="filled" {...props} />
 }
 
-export function ComplitedSnackbar() {
+export function CompletedSnackbar() {
     const status = useSelector<AppStateType, string | null>(state => state.app.status)
     const dispatch = useDispatch()
 
@@ -17,14 +17,12 @@ export function ComplitedSnackbar() {
         if (reason === 'clickaway') {
             return
         }
-        dispatch(setAppStatus("idle"))
+        dispatch(setAppStatus({status: "idle"}))
     }
 
     return (
         <Snackbar open={status === "succeeded"} autoHideDuration={2000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="success">
-                Success Motherfucker))
-            </Alert>
+            <Alert onClose={handleClose} severity="success">Success Motherfucker))</Alert>
         </Snackbar>
     )
 }

@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../store/store";
 import {authMe, RequestStatusType} from "../store/app-reducer";
 import {ErrorSnackbar} from "../Components/Common/ErrorSnackbar/ErrorSnackbar";
-import {ComplitedSnackbar} from "../Components/Common/ComplitedSnackbar/ComplitedSnackbar";
+import {CompletedSnackbar} from "../Components/Common/ComplitedSnackbar/ComplitedSnackbar";
 import {HashRouter, Redirect, Route, Switch} from 'react-router-dom';
 import {Login} from "../Components/Login/Login";
 
@@ -31,7 +31,7 @@ function App() {
     return (
         <div className="App">
             {status === "failed" && <ErrorSnackbar/>}
-            {status === "succeeded" && <ComplitedSnackbar/>}
+            {status === "succeeded" && <CompletedSnackbar/>}
             <AppBar position={"static"}>
                 <AppMenu isLoggedIn={isLoggedIn}/>
                 <div className="progress">{status === "loading" && <LinearProgress/>}</div>
